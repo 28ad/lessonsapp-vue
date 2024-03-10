@@ -28,6 +28,8 @@ export default {
   },
   components: { LessonsList, Checkout },
   created: function () {
+    this.startSW();
+
     // Fetch data as soon as the homepage loads
     fetch('https://webstore-restapi.onrender.com/collections/products')
       .then(response => response.json())
@@ -41,7 +43,13 @@ export default {
       .catch(error => console.error('Error fetching data:', error));
 
   },
+
   methods: {
+    startSW() {
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("service-worker.js");
+      }
+    },
     showCheckout() {
       if (this.currentView === LessonsList) {
         this.currentView = Checkout;
